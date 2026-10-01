@@ -1,0 +1,27 @@
+model Idea {
+  id               String     @id @default(uuid())
+  title            String
+  problemStatement String
+  proposedSolution String
+  description      String
+  images           String[]
+  status           IdeaStatus @default(DRAFT)
+  isPaid           Boolean    @default(false)
+  price            Decimal?   @db.Decimal(10, 2)
+  feedback         String?
+  authorId         String
+  categoryId       String
+  createdAt        DateTime   @default(now())
+  updatedAt        DateTime   @updatedAt
+
+  author    User        @relation(fields: [authorId], references: [id])
+  category  Category    @relation(fields: [categoryId], references: [id])
+  votes     Vote[]
+  comments  Comment[]
+  payments  Payment[]
+  watchlist Watchlist[]
+
+  @@index([status, createdAt])
+  @@index([categoryId])
+  @@index([authorId])
+}

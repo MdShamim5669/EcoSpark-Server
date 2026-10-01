@@ -1,0 +1,14 @@
+model Payment {
+  id            String        @id @default(uuid())
+  amount        Decimal       @db.Decimal(10, 2)
+  status        PaymentStatus @default(PENDING)
+  transactionId String        @unique
+  userId        String
+  ideaId        String
+  createdAt     DateTime      @default(now())
+
+  user User @relation(fields: [userId], references: [id])
+  idea Idea @relation(fields: [ideaId], references: [id])
+
+  @@index([userId, ideaId, status])
+}
