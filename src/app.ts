@@ -29,6 +29,18 @@ app.use(express.urlencoded({ extended: true }));
 // Serve uploaded static files
 app.use("/uploads", express.static(path.join(process.cwd(), "public", "uploads")));
 
+// Root endpoint
+app.get("/", (req: Request, res: Response) => {
+  res.status(200).json({
+    success: true,
+    message: "EcoSpark Hub Backend Server is live and operational",
+    version: "1.0.0",
+    apiBase: "/api/v1",
+    healthCheck: "/health",
+    timestamp: new Date().toISOString(),
+  });
+});
+
 // Health check endpoint
 app.get("/health", (req: Request, res: Response) => {
   res.status(200).json({
