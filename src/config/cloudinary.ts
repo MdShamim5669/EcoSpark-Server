@@ -61,7 +61,7 @@ export const uploadLocalFallback = async (
     secure_url: secure_url,
     access_mode: "public",
     original_filename: sanitizedFileName,
-  } as UploadApiResponse;
+  } as unknown as UploadApiResponse;
 };
 
 /**
