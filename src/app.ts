@@ -12,7 +12,23 @@ const app: Application = express();
 // Middlewares
 app.use(
   cors({
-    origin: [config.clientUrl, "http://localhost:3000"],
+    origin: (origin, callback) => {
+      // Allow requests with no origin (like mobile apps, curl, server-side fetch)
+      if (!origin) return callback(null, true);
+      const allowedOrigins = [
+        config.clientUrl,
+        "http://localhost:3000",
+        "http://127.0.0.1:3000",
+      ];
+      if (
+        allowedOrigins.includes(origin) ||
+        origin.endsWith(".vercel.app") ||
+        origin.endsWith(".onrender.com")
+      ) {
+        return callback(null, true);
+      }
+      return callback(null, true); // Allow client requests
+    },
     credentials: true,
   })
 );
